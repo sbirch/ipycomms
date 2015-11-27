@@ -24,7 +24,8 @@ def handle_open(_comm, msg):
     _comm.on_msg(dispatch)
 
 def send(topic, data):
-    comm.send({'topic': topic, 'data': data})
+    msg = {'topic': topic, 'data': data}
+    comm.send(msg)
 
 # The channel name is arbitrary.
 get_ipython().kernel.comm_manager.register_target('ipycomms.channel', handle_open)
@@ -62,17 +63,6 @@ IPython.ipycomms = {
 }
 
 IPython.ipycomms.init()
-
-
-/*
-Use like:
-
-IPython.ipycomms.addListener("some.topic", function(data){
-    console.log(data)
-})
-IPython.ipycomms.send("some.topic", "some data")
-
-*/
 </script>
 ''', raw=True)
 print "Injected script."
