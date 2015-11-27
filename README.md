@@ -28,7 +28,7 @@ def print_message(msg):
     ipycomms.send('some.topic', msg)
 
 # Register a listener
-ipycomms.addListener('some.topic', print_message)
+ipycomms.setListener('some.topic', print_message)
 ```
 
 Javascript (this example is for a notebook cell -- in practice it would probably be used somewhere in injected code):
@@ -36,7 +36,7 @@ Javascript (this example is for a notebook cell -- in practice it would probably
 ```
 %%javascript
 // Print messages sent to "some.topic"
-IPython.ipycomms.addListener("some.topic", function(data){
+IPython.ipycomms.setListener("some.topic", function(data){
     console.log(data)
 })
 
