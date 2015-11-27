@@ -4,8 +4,8 @@ from IPython import get_ipython
 comm = None
 listeners = {}
 
-def addListener(topic, callback):
-    listeners[topic] = listeners.get(topic, []) + [callback]
+def setListener(topic, callback):
+    listeners[topic] = callback
 
 def dispatch(msg):
     # Note: because of the way comms are run, you can't print in these functions.
@@ -14,8 +14,8 @@ def dispatch(msg):
     # e.g. get_ipython().kernel.comm_manager.log.error(...)
     msg = msg['content']['data']
     
-    for callback in listeners.get(msg['topic'], []):
-        callback(msg['data'])
+    if listeners.has_key(msg['topic']):
+        listeners[msg['topic']](msg['data'])
 
 def handle_open(_comm, msg):
     global comm
@@ -50,16 +50,11 @@ IPython.ipycomms = {
             return;
         }
         
-        _.each(this.topicHandlers[msg.topic], function(callback){
-            callback(msg.data)
-        })
+        this.topicHandlers[msg.topic](msg.data)
     },
     topicHandlers: {},
-    addListener: function(topic, callback){
-        if (!this.topicHandlers.hasOwnProperty(topic)){
-            this.topicHandlers[topic] = []
-        }
-        this.topicHandlers[topic].push(callback)
+    setListener: function(topic, callback){
+        this.topicHandlers[topic] = callback
     },
     send: function(topic, data){
         this.comm.send({topic: topic, data: data})

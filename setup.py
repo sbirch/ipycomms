@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(name='ipycomms',
       version='0.1',
-      description='Short wrapper script around IPython comms library for Javascript / kernel communication.',
+      description='Lightweight messaging between IPython / Jupyter notebooks and Javascript',
       url='https://github.com/sbirch/ipycomms/tree/master',
       author='Sam Birch',
       author_email='sam.m.birch@gmail.com',
